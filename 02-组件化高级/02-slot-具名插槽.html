@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<script src="../js/vue.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+	<body>
+		<!-- 1.插槽的基本使用<slot></slot> -->
+		<!-- 2.插槽的默认值<slot><button>按钮</button></slot> -->
+		<!-- 3.如果有多个值，同时放入到组件进行替换时，一起作为替换元素 -->
+		<div id="app">
+			<!-- <h1>我是父组件</h1> -->
+	         <cpn1><span slot="left">使用左边插槽</span></cpn1>
+			 <cpn1><span slot="middle">使用中间插槽</span></cpn1>
+			 <cpn1><input slot="middle"></input></span><button slot="right">按钮</button></cpn1>
+		</div>
+		
+		<template id="cpn">
+			<div>
+				<h2>我是子组件</h2>
+				<p>我是子组件，哈哈哈</p>
+				<slot name="left">左边</slot>
+				<slot name="middle">中间</slot>
+				<slot name="right">右边</slot>
+			</div>
+		</template>
+		
+		<script>
+			const cpn1 = {
+				template: "#cpn",
+				data(){
+					return{
+					}
+				}
+			}
+			const app = new Vue({
+				// 注意在Vue实例中关联标签用的是el，组件里面用的是template模板
+				el: "#app",
+				data:{
+					
+				},
+				components: {
+					cpn1
+				}
+			})
+		</script>
+		
+	</body>
+</html>

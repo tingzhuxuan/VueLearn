@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>组件通信-子组件向父组件传递(双向绑定)</title>
+		<script src="../js/vue.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+	<body>
+		<!-- 2.父组件模板 -->
+		<div id="app">
+			<!-- 带有ref属性的子组件会放到$refs对象中 -->
+			<cpn3 ref="aaa"></cpn3>
+			<cpn3 ref="bbb"></cpn3>
+			<!-- 不带ref属性的子组件不会放到$refs对象中 -->
+			<cpn3></cpn3>
+			<button @click="btnClick">按钮</button>
+		</div>
+		
+		<!-- 2.子组件模板 -->
+		<template id="cpn3">
+			<div>
+				<h1>我是子组件</h1>
+			</div>
+		</template>
+		
+		<script>
+			// 子组件cpn3
+			const cpn3 = {
+				template: '#cpn3',
+				//子组件中的props要在父组件中进行传值，修改，不要在子组件自己内部进行绑定修复
+				//修改组件内部的数据用data 或者 computed 中的数据
+                props: {
+					//无法在父组件中通过children访问子组件的props
+					pcpn1:"属性"
+				},
+				data() {
+					return {
+                         name:"我是子组件的name",
+						 age:"我是子组件的age"
+					}
+				},
+				methods: {
+					showMessage:function(){
+						console.log("我是子组件的showMessage方法");
+					}
+				}
+			}
+			//父组件
+			const app = new Vue({
+				el: '#app',
+				data: {
+					},
+					// 子组件在父组件中注册
+				components:{
+					cpn3
+				},
+				methods: {
+					btnClick:function(){
+						// refs是一个对象，一般默认为空，如果使用，需要在父组件 使用子组件的时候，给子组件加上ref属性
+						console.log(this.$refs);
+						console.log(this.$refs["aaa"]);
+						console.log(this.$refs["aaa"].name);
+						console.log(this.$refs["aaa"].age);
+						console.log(this.$refs["aaa"].showMessage());
+						
+						// 1.循环遍历对象（for---in）
+						for(key in this.$refs){
+							console.log(key);
+							console.log(this.$refs[key]);
+							console.log(this.$refs[key].name);
+							console.log(this.$refs[key].age);
+							console.log(this.$refs[key].showMessage());
+						}
+						console.log("-------------Object--------------");
+						// 获取对象的keys集合
+						console.log(Object.keys(this.$refs));
+						console.log(Object.values(this.$refs));
+						
+						console.log("-------------getOwnPropertyNames--------------");	
+						// Object.getOwnPropertyNames(this.$refs).forEach(function(key) {
+						// 	console.log(key + '---' + this.$refs[key])
+						// });
+					}
+				}
+			})
+			
+		</script>
+	</body>
+</html>

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<script src="../js/vue.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+	<body>
+		<div id="app1">
+			<!-- cpn1和cpn2使用的是app1实例中的局部注册 -->
+			<cpn1></cpn1>
+			<cpn2></cpn2>
+			<!-- cpn3使用的是全局注册 -->
+			<cpn3></cpn3>
+		</div>
+		<div id="app2">
+			<!-- cpn1和cpn2是app1实例中的局部注册，没有在app2中进行注册所以在该处不能生效 -->
+			<cpn1></cpn1>
+			<cpn2></cpn2>
+			<!-- cpn3使用的是全局注册 -->
+			<cpn3></cpn3>
+		</div>
+		<script>
+			// 1.第一个组件构造器
+			const cpnC1 = Vue.extend({
+				template:`
+				<div>
+					<h2>我是标题1</h2>
+					<p>我是内容，哈哈哈</p>
+				</div>`
+			})
+			// 2.第二个组件构造器
+			const cpnC2 = Vue.extend({
+				template:`
+				<div>
+					<h2>我是标题2</h2>
+					<p>我是内容，呵呵呵</p>
+				</div>`
+			})
+			const cpnC3 = Vue.extend({
+				template:`
+				<div>
+					<h2>我是标题3</h2>
+					<p>我是内容，嘎嘎嘎</p>
+				</div>`
+			})
+			//全局注册组件，则app1和app2实例中都能使用
+			Vue.component('cpn3',cpnC3);
+			
+			const app1 = new Vue({
+				el: '#app1',
+				data: {
+					message: '你好啊'
+				},
+				// 实例内部组件的局部注册，只能在app1实例中使用，不能再app2中使用
+				components: {
+					cpn1:cpnC1,
+					cpn2:cpnC2
+				}
+			})
+			const app2 = new Vue({
+				el: "#app2"
+			})
+		</script>
+		
+	</body>
+</html>

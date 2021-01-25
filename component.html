@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>自定义Vue组件</title>
+		<script src="js/vue.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+	<body>
+		<div id = "app">
+			<button-counter title="title1 : " @clicknow="clicknow"></button-counter>
+			<button-counter title="title2 : " @clicknow="clicknow"></button-counter>
+			<button-counter title="title3 : " @clicknow="clicknow"></button-counter>
+			<!-- 通过自定义的局部组件定义一个button -->
+			<testcomp></testcomp>
+		</div>
+		<script type="text/javascript">
+			//全局注册组件通过Vue.component函数的都是全局注册，没有应用也会达到最终的js包中
+			Vue.component('button-counter',{
+				props:['title'],
+				data: function (){
+					return {
+						count: 0
+					}
+				},
+				//每个template标签必须有根节点div
+				template: '<div><h1> test ....</h1><button v-on:click="clickFunc">{{title}}You click me {{ count }} times.</button></div>',
+				methods:{
+					clickFunc : function(){
+						this.count++;
+						this.$emit('clicknow',this.count);
+					}
+				}
+			})
+			var vm = new Vue({
+				el : "#app",
+				data : {
+					// count : 0
+				},
+				methods:{
+					clicknow : function (param) {
+						console.log(param)
+					}
+				},
+				// 在new Vue实例中通过components定义的组件为局部组件
+				components:{
+					// testcomp是定义的组件名称
+					testcomp : {
+						template:"<button type='radio' @click='displayMsg'>组件单选</button>",
+						methods:{
+							displayMsg : function(){
+								alert("这是自定义组件属性！！！")
+							}
+						}
+					}	
+				}
+			})
+		</script>
+	</body>
+</html>

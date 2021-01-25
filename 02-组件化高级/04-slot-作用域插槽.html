@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<script src="../js/vue.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+	<body>
+		<!-- 1.插槽的基本使用<slot></slot> -->
+		<!-- 2.插槽的默认值<slot><button>按钮</button></slot> -->
+		<!-- 3.如果有多个值，同时放入到组件进行替换时，一起作为替换元素 -->
+		<div id="app">
+            <cpn1></cpn1>
+			<cpn1>
+				<template slot-scope="slot">
+					<!-- <span v-for = "item in slot.data">{{ item }} - </span> -->
+					<span>{{ slot.data.join(' - ') }}</span>
+				</template>
+			</cpn1>
+			<cpn1>
+				<template slot-scope="slot">
+					<!-- <span v-for = "item in slot.data">{{ item }} * </span> -->
+					<span>{{ slot.data.join(' * ') }}</span>
+				</template>
+			</cpn1>
+		</div>
+		
+		<template id="cpn">
+			<div>
+				<slot :data="pLanguages">
+					<ul>
+						<li v-for = "item in pLanguages">{{ item }}</li>
+					</ul>
+				</slot>
+			</div>
+		</template>
+		
+		<script>
+			const cpn1 = {
+				template: "#cpn",
+				data(){
+					return{
+						// 作用的自己对应的template使用的变量里面
+						pLanguages: ["C++","Java","JavaScript","Python","Go","C","C#","MatLab","Vue"]
+					}
+				}
+			}
+			const app = new Vue({
+				// 注意在Vue实例中关联标签用的是el，组件里面用的是template模板
+				el: "#app",
+				data:{
+					// 作用在app模板的里面
+					isShow: true
+				},
+				components: {
+					cpn1
+				}
+			})
+		</script>	
+	</body>
+</html>

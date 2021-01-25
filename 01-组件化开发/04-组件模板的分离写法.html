@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<script src="../js/vue.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+	<body>
+		<div id="app">
+			
+			<cpn1></cpn1>
+			<cpn2></cpn2>
+			<cpn3></cpn3>
+		</div>
+		<!-- 1.通过script标签，注意：类型必须是text/x-template -->
+		<script type="text/x-handlebars-template" id="cpn1">
+			<div>
+			    <h1>我是标题</h1>
+				<p>我是内容，哈哈哈(全局组件注册和模板分离Script标签配置）</p>
+			</div>
+		</script>
+		<script type="text/x-handlebars-template" id="cpn2">
+			<div>
+			    <h1>我是标题</h1>
+				<p>我是内容，呵呵呵(局部组件注册和模板分离Script标签配置)</p>
+			</div>
+		</script>
+		<!-- 2.通过template标签实现组件和模板分离 -->
+		<template id="cpn3">
+			<div>
+			    <h1>我是标题</h1>
+				<p>我是内容，啦啦啦(局部组件注册和模板分离Script标签配置)</p>
+			</div>
+		</template>
+		
+		<script>
+			
+			// 这种Vue.component的模式是Vue2.x使用语法糖版本（这种方式是全局组件注册）
+			Vue.component('cpn1',{
+				template: '#cpn1'
+			})
+			
+			const app = new Vue({
+				el: '#app',
+				data: {
+					message: '你好啊'
+				},
+				// Vue实例中components内注册的是局部组件（语法糖）
+				components: {
+					'cpn2':{
+						template: '#cpn2'
+					},
+					'cpn3':{
+						template: '#cpn3'
+					}
+				}
+			})
+			
+		</script>
+	
+	
+	</body>
+</html>

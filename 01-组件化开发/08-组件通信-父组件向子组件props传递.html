@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>08-组件通信-父组件向子组件props传递</title>
+		<script src="../js/vue.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+	<body>
+		<div id="app">
+			<!-- v-bind将后面的变量在父组件的data中进行查找，如果没有v-bind则默认的是普通字符串 -->
+			<cpn3 v-bind:cmessage="message" :ctitle="title" :cmovies="movies"></cpn3>
+			<cpn3 :cmovies="movies"></cpn3>
+			<!-- 如果没有v-bind的，则属性后面的值是普通字符串 -->
+			<cpn3 cmessage="message" ctitle="title"></cpn3>
+			
+		</div>
+		<!-- 2.通过template标签实现组件和模板分离 -->
+		<template id="cpn3">
+			<div>
+                 <h1>{{ctitle}}</h1>
+				 <h2>{{cmessage}}</h2>
+				 <p>{{cmovies}}</p>
+				 <ul>
+				 	<li v-for="item in cmovies">{{item}}</li>
+				 </ul>
+			</div>
+		</template>
+		
+		<script>
+			// 子组件
+			const cpn3 = {
+				template: '#cpn3',
+				// 父组件中的信息通过该props传递给子组件
+				props:["cmessage","ctitle","cmovies"],
+				data() {
+					return {}
+				},
+				methods: {
+					
+				}
+			}
+			//父组件
+			const app = new Vue({
+				el: '#app',
+				data: {
+					    //父组件中的属性信息
+						message: '你好啊',
+						// 该处的data属性不能在组件中使用，组件中只能使用自己的data返回的属性
+						title:'我是标题Vue实例（父组件）中的，要在子组件中使用展示',
+						movies: ['海王','海贼王','海尔兄弟']
+					},
+				components:{
+					cpn3
+				}
+			})
+			
+		</script>
+	</body>
+</html>

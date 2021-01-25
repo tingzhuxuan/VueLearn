@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<script src="js/vue.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+	<body>
+		<div id="app">
+			{{ a }}
+		</div>
+		<script type="text/javascript">
+			var data = { a : "李四" };
+			var vm = new Vue({
+				el: '#app',
+				data : data
+			});
+			// 即响应式：在new Vue中的 data 属性后面加入某个值，则该值即可享受响应时功能
+			data.a = "张三 Hi"  //{{a}} 会显示该值
+	        vm.$data.a = "test.....value....."  //{{a}} 会显示该值
+			
+			//$watch是一个实例方法，观察某个变量的变化会记录这个值的新值和旧值
+			//变化的操作必须放到watch方法后面
+			vm.$watch('a',function(newVal,oldVal){
+				//这个回调将在‘vm.a’改变后调用
+				console.log(newVal,oldVal);
+			})
+            // vm.$data.a = "test.....value....."  //{{a}} 会显示该值
+			vm.a = "zhangsan hi"  //{{a}} 会显示该值
+			
+		</script>
+	</body>
+</html>

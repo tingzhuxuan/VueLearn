@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>09-组件通信-子组件向父组件传递</title>
+		<script src="../js/vue.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+	<body>
+		<!-- 2.父组件模板 -->
+		<div id="app">
+			<cpn3 v-on:item-click="cpnClick"></cpn3>
+		</div>
+		
+		<!-- 2.子组件模板 -->
+		<template id="cpn3">
+			<div>
+                 <button v-for="item in categories"
+				         @click="btnClick(item)">{{item.name}}</button>
+			</div>
+		</template>
+		
+		<script>
+			// 子组件cpn3
+			const cpn3 = {
+				template: '#cpn3',
+				// 父组件中的信息通过该props传递给子组件
+				// props:["cmessage","ctitle","cmovies"],
+				data() {
+					return {
+						categories:[
+							{id:'aaa',name: '热门推荐'},
+							{id:'bbb',name: '手机数码'},
+							{id:'ccc',name: '家用电器'},
+							{id:'ddd',name: '电脑办公'},
+							{id:'eee',name: '美妆护肤'},
+							
+						]
+					}
+				},
+				methods: {
+					btnClick:function(item){
+						console.log("子组件中展示：",item);
+						// alert(item.name);
+						// 子组件发射事件(在父组件的使用中v-on或者@监听该事件)
+						// $emit第一个参数是事件名称，第二个是参数
+						this.$emit('item-click',item);
+					}
+				}
+			}
+			//父组件
+			const app = new Vue({
+				el: '#app',
+				data: {
+					    //父组件中的属性信息
+						message: '你好啊',
+						// 该处的data属性不能在组件中使用，组件中只能使用自己的data返回的属性
+						title:'我是标题Vue实例（父组件）中的，要在子组件中使用展示',
+						movies: ['海王','海贼王','海尔兄弟']
+					},
+					// 子组件在父组件中注册
+				components:{
+					cpn3
+				},
+				methods: {
+					cpnClick:function(item){
+						alert("父组件方法");
+						console.log("父组件中展示：",item);
+					}
+				}
+			})
+			
+		</script>
+	</body>
+</html>

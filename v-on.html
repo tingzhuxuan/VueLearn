@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>v-on命令测试</title>
+		<script src="js/vue.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+	<body>
+		<div id="app">
+	        <p v-if="show">这是一段文本</p>
+			<!-- v-on用来绑定事件监听器，在button上可以绑定点击事件，在普通元素上可以监听原生Dom事件，除了click外，
+			还有dblclick/keyup/mousemove等 -->
+			<p/>
+			<button v-on:click="show = false">内联语句实现隐藏</button>
+			<p/>
+			<button v-on:click="handleClose">点击隐藏</button>
+			<p/>
+			<button v-on:dblclick="dblhandleClose">双击显示</button>
+			<p/>
+			<button v-on:keyup="keyUpHandle">键盘抬起显示</button>
+			<p/>
+			<button v-on:keydown="keyDownHandle">键盘按下隐藏</button>
+			<p/>
+			<button v-on:keypress="keyPressHandle">键盘press隐藏</button>
+			
+		</div>
+		<div id = "example-1">
+			<button v-on:click="greet">Greet</button>
+		</div>
+		<div id = "example-2">
+			<button v-on:click="say('hi')">Say hi</button>
+			<button v-on:click="say('what')">Say what</button>
+			<button v-on:click="name = addStr(name)">Say name</button>
+		</div>
+		<script type="text/javascript">
+			var app = new Vue({
+				el: "#app",
+				data: {
+					show: true
+				},
+				methods:{
+					handleClose: function (){
+						this.show = false;
+					},
+					dblhandleClose: function (){
+						this.show = true;
+					},
+					keyUpHandle: function (){
+						this.show = true;
+					},
+					keyDownHandle: function (){
+						this.show = false;
+					},
+					keyPressHandle: function (){
+						this.show = false;
+					}
+				}
+				
+			});
+		    var example1 = new Vue({
+				el: '#example-1',
+				data:{
+					name: 'Vue.js'
+				},
+				methods:{
+					greet: function (event){
+						alert('Hello ' + this.name + '!');
+						// `event` 是原生 DOM 事件
+						if (event){
+							alert(event.target.tagName);
+							alert(event.target);
+							alert(event);
+						}
+					}
+				}
+			});
+			// 也可以用 JavaScript 直接调用方法(直接调用没有Dom事件，因为没有点击等)
+			// example1.greet(event); 
+			var example2 = new Vue({
+				el: '#example-2',
+				data: {
+					name: "nfx"
+				},
+				methods: {
+					say: function(message){
+						alert(message);
+					},
+					addStr: function(msg){
+						if(msg == 'nfx'){
+							msg += "-tingzhuxuan"
+						}
+						// alert(msg);
+						return msg;
+					}
+				}
+			});
+			// alert("显示调用name的值：" + example2.$data.name);
+		</script>
+	</body>
+</html>

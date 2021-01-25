@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<script src="../js/vue.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+	<body>
+		<div id="app">
+			<cpn1></cpn1>
+			<cpn2></cpn2>
+		</div>
+		<script>
+			// // 这种extend的模式是Vue1.x 版本，Vue2.x使用语法糖版本
+			// const cpnC1 = Vue.extend({
+			// 	template:`
+			// 	<div>
+			// 		<h2>我是标题1</h2>
+			// 		<p>我是内容，哈哈哈</p>
+			// 	</div>`
+			// })
+			// Vue.component('cpn1',cpnC1)
+			
+			// 这种Vue.component的模式是Vue2.x使用语法糖版本（这种方式是全局组件注册）
+			Vue.component('cpn1',{
+				template:`
+				<div>
+					<h2>我是标题1</h2>
+					<p>我是内容，哈哈哈</p>
+				</div>`
+			})
+			
+			const app = new Vue({
+				el: '#app',
+				data: {
+					message: '你好啊'
+				},
+				// Vue实例中components内注册的是局部组件（语法糖）
+				components: {
+					'cpn2':{
+						template:`
+						<div>
+							<h2>我是标题2</h2>
+							<p>我是内容，呵呵呵</p>
+						</div>`
+					}
+				}
+			})
+			
+		</script>
+	
+	
+	</body>
+</html>

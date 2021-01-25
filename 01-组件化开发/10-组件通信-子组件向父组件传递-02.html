@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>09-组件通信-子组件向父组件传递</title>
+		<script src="../js/vue.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+	<body>
+		<!-- 2.父组件模板 -->
+		<div id="app">
+			<cpn3 v-on:incrementclick="cpnClick" @decrementclick="cpnClick"></cpn3>
+			<h1>{{pcounter}}</h1>
+		</div>
+		
+		<!-- 2.子组件模板 -->
+		<template id="cpn3">
+			<div>
+                 <button @click="increment">+</button>
+				 <button @click="decrement">-</button>
+			</div>
+		</template>
+		
+		<script>
+			// 子组件cpn3
+			const cpn3 = {
+				template: '#cpn3',
+				data() {
+					return {
+						counter:0
+					}
+				},
+				methods: {
+					increment:function(){
+						this.counter++;
+						this.$emit("incrementclick",this.counter);
+					},
+					decrement:function(){
+						this.counter--;
+						this.$emit("decrementclick",this.counter);
+					}
+				}
+			}
+			//父组件
+			const app = new Vue({
+				el: '#app',
+				data: {
+					    //父组件中的属性信息
+						message: '你好啊',
+						// 该处的data属性不能在组件中使用，组件中只能使用自己的data返回的属性
+						title:'我是标题Vue实例（父组件）中的，要在子组件中使用展示',
+						movies: ['海王','海贼王','海尔兄弟'],
+						pcounter:0
+					},
+					// 子组件在父组件中注册
+				components:{
+					cpn3
+				},
+				methods: {
+					cpnClick:function(counter){
+                        this.pcounter = counter;
+					}
+				}
+			})
+			
+		</script>
+	</body>
+</html>

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>组件通信-子组件向父组件传递(双向绑定)</title>
+		<!-- 通过children拿子组件的方式很少使用，只有需要拿到全部子组件的时候才可能用到，一般用refs -->
+		<script src="../js/vue.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+	<body>
+		<!-- 2.父组件模板 -->
+		<div id="app">
+		    <cpn3></cpn3>
+			<cpn3></cpn3>
+			<cpn3></cpn3>
+			<button @click="btnClick">按钮</button>
+		</div>
+		
+		<!-- 2.子组件模板 -->
+		<template id="cpn3">
+			<div>
+				<h1>我是子组件</h1>
+			</div>
+		</template>
+		
+		<script>
+			// 子组件cpn3
+			const cpn3 = {
+				template: '#cpn3',
+				//子组件中的props要在父组件中进行传值，修改，不要在子组件自己内部进行绑定修复
+				//修改组件内部的数据用data 或者 computed 中的数据
+                props: {
+					//无法在父组件中通过children访问子组件的props
+					pcpn1:"属性"
+				},
+				data() {
+					return {
+                         name:"我是子组件的name",
+						 age:"我是子组件的age"
+					}
+				},
+				methods: {
+					showMessage:function(){
+						console.log("我是子组件的showMessage方法");
+					}
+				}
+			}
+			//父组件
+			const app = new Vue({
+				el: '#app',
+				data: {
+					},
+					// 子组件在父组件中注册
+				components:{
+					cpn3
+				},
+				methods: {
+					btnClick:function(){
+						console.log(this.$children);
+						for(let c of this.$children){
+							// 调用子组件的showMessage方法
+							c.showMessage();
+							//访问子组件data中的数据
+							console.log(c.name);
+							console.log(c.age);
+						}
+					}
+				}
+			})
+			
+		</script>
+	</body>
+</html>

@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>methods计算属性</title>
+		<!-- 所有计算属性都以函数的形式写在Vue实例内的computed选项内，最终返回计算后的结果 -->
+		<!-- 在一个计算属性中可以完成各种复杂的逻辑，包括运算、函数调用等，只要最终返回一个结果就可以 -->
+		<!-- 计算属性可以依赖多个Vue实例的数据,只要其中任意一个数据变化,计算属性都会重新执行,视图也会更新 -->
+		<!-- 使用计算属性还是methods取决于你是否需要使用缓存，当遍历大数组和做大量计算是，应当使用计算属性，除非你不希望得到缓存 -->
+		<script src="js/vue.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+	<body> 
+		<div id="app">
+			{{ reversedTextFunc() }}
+		</div>
+		<script type="text/javascript">
+			var app = new Vue({
+				el: "#app",
+				data: {
+					text: '123,456,789'
+				},
+				methods: {
+					reversedTextFunc: function (){
+						return this.text.split(',').reverse().join('~');	
+					}
+				}
+			});
+			
+		</script>
+	</body>
+</html>

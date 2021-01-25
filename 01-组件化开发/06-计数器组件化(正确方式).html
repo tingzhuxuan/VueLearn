@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>组件中数据存放的问题</title>
+		<script src="../js/vue.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+	<body>
+		<div id="app">
+			<cpn3></cpn3>
+			<cpn3></cpn3>
+			<cpn3></cpn3>
+		</div>
+		<!-- 2.通过template标签实现组件和模板分离 -->
+		<template id="cpn3">
+			<div>
+			    <h1>{{counter}}</h1>
+				<button @click="increment">+</button>
+				<button @click="decrement">-</button>
+			</div>
+		</template>
+		
+		<script>
+			// 这种Vue.component的模式是Vue2.x使用语法糖版本（这种方式是全局组件注册）
+			Vue.component('cpn3',{
+				template: '#cpn3',
+				// 组件中的data必须是函数（防止组件多次实例化时共用相同的数据），这种方式是正确的，组件封装要让每个组件有独立的数据
+				data() {
+					return{
+						counter:0
+					}
+				},
+				methods:{
+					increment: function(){
+						this.counter++;
+					},
+					decrement: function(){
+						this.counter--;
+					}
+				}
+			})
+			
+			const app = new Vue({
+				el: '#app',
+				data: {
+						message: '你好啊',
+						// 该处的data属性不能在组件中使用，组件中只能使用自己的data返回的属性
+						title:'我是标题Vue实例中的'
+					}
+			})
+			
+		</script>
+	</body>
+</html>
